@@ -7,23 +7,7 @@ import {
   InferGetStaticPropsType,
 } from "next/types";
 
-const Details = ({ user }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  return (
-    <>
-      <Link href="/">
-        <a>Home page</a>
-      </Link>
-      {user && (
-        <div>
-          <h3>user name: {user?.name}</h3>
-          <h5>user email: {user?.email}</h5>
-        </div>
-      )}
-    </>
-  );
-};
-
-export async function getStaticPaths(context: GetStaticPropsContext) {
+export async function getStaticPaths() {
   const res = await fetch("https://jsonplaceholder.typicode.com/users");
   const users: IUser[] = await res.json();
 
@@ -36,6 +20,23 @@ export async function getStaticPaths(context: GetStaticPropsContext) {
     fallback: false,
   };
 }
+
+const Details = ({ user }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  return (
+    <>
+      <Link href="/">
+        <a>Home page</a>
+      </Link>
+      {user && (
+        <div>
+          <h2>User ID: {user?.id}</h2>
+          <h3>user name: {user?.name}</h3>
+          <h5>user email: {user?.email}</h5>
+        </div>
+      )}
+    </>
+  );
+};
 
 interface IUser {
   id: number;
@@ -53,6 +54,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     props: {
       user,
     },
+    revalidate: 30,
   };
 };
 
