@@ -1,35 +1,9 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { NextPage } from "next/types";
-import { useState, useEffect } from "react";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next/types";
 
-interface IUser {
-  id: number;
-  name: string;
-  email: string;
-}
-
-const Details: NextPage = () => {
-  const router = useRouter();
-  const { id } = router.query;
-
-  const [user, setUser] = useState<IUser | null>(null);
-
-  useEffect(() => {
-    async function getUser() {
-      const res = await fetch(
-        `https://jsonplaceholder.typicode.com/users/${id}`
-      );
-      const user: IUser = await res.json();
-
-      setUser(user);
-    }
-
-    if (id) {
-      getUser();
-    }
-  }, [id]);
-
+const Details = ({
+  user,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <>
       <Link href="/">
@@ -43,6 +17,30 @@ const Details: NextPage = () => {
       )}
     </>
   );
+};
+
+interface IUser {
+  id: number;
+  name: string;
+  email: string;
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const resp = await fetch(
+    `https://jsonplaceholder.typicode.com/users/${context?.params?.id}`
+  );
+  const user: IUser = await resp.json();
+
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
+
+  return {
+    props: {
+      user,
+    },
+  };
 };
 
 export default Details;

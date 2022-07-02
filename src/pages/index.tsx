@@ -1,6 +1,32 @@
-import type { NextPage } from "next";
+import type { InferGetServerSidePropsType, NextPage } from "next";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+
+const Home = ({
+  users,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  return (
+    <div>
+      <h1>Users</h1>
+      <ul style={{ listStyle: "none" }}>
+        {users.map((user: IUser) => {
+          return (
+            <li
+              key={user.id}
+              style={{ border: "1px solid black", padding: "10px" }}
+            >
+              <Link href={`/users/${user.id}`}>
+                <a>
+                  <h3>{user.name}</h3>
+                  <h5>{user.email}</h5>
+                </a>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
 
 interface IUser {
   id: number;
@@ -8,43 +34,14 @@ interface IUser {
   email: string;
 }
 
-const Home: NextPage = () => {
-  const [users, setUsers] = useState<IUser[]>([]);
+export const getServerSideProps = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/users");
+  const users: IUser[] = await res.json();
 
-  useEffect(() => {
-    async function getUsers() {
-      const res = await fetch("https://jsonplaceholder.typicode.com/users");
-      const users: IUser[] = await res.json();
-
-      setUsers(users);
-    }
-
-    getUsers();
-  }, []);
-
-  return (
-    <div>
-      <h1>Users</h1>
-      <ul style={{ listStyle: "none" }}>
-        {users.length &&
-          users.map((user) => {
-            return (
-              <li
-                key={user.id}
-                style={{ border: "1px solid black", padding: "10px" }}
-              >
-                <Link href={`/users/${user.id}`}>
-                  <a>
-                    <h3>{user.name}</h3>
-                    <h5>{user.email}</h5>
-                  </a>
-                </Link>
-              </li>
-            );
-          })}
-      </ul>
-    </div>
-  );
+  return {
+    props: {
+      users,
+    },
+  };
 };
-
 export default Home;
