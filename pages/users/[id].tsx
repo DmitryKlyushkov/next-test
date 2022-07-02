@@ -37,8 +37,8 @@ const Details: NextPage = () => {
       </Link>
       {user && (
         <div>
-          <h3>{user?.name}</h3>
-          <h5>{user?.email}</h5>
+          <h3>user name: {user?.name}</h3>
+          <h5>user email: {user?.email}</h5>
         </div>
       )}
     </>
