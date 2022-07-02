@@ -1,9 +1,13 @@
 import Link from "next/link";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next/types";
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  GetStaticPropsContext,
+  InferGetServerSidePropsType,
+  InferGetStaticPropsType,
+} from "next/types";
 
-const Details = ({
-  user,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Details = ({ user }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
       <Link href="/">
@@ -19,22 +23,31 @@ const Details = ({
   );
 };
 
+export async function getStaticPaths(context: GetStaticPropsContext) {
+  const res = await fetch("https://jsonplaceholder.typicode.com/users");
+  const users: IUser[] = await res.json();
+
+  return {
+    paths: users.map((user) => ({
+      params: {
+        id: user.id.toString(),
+      },
+    })),
+    fallback: false,
+  };
+}
+
 interface IUser {
   id: number;
   name: string;
   email: string;
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps = async (context: GetStaticPropsContext) => {
   const resp = await fetch(
     `https://jsonplaceholder.typicode.com/users/${context?.params?.id}`
   );
   const user: IUser = await resp.json();
-
-  // context.res.setHeader(
-  //   "Cache-Control",
-  //   "public, s-maxage=10, stale-while-revalidate=59"
-  // );
 
   return {
     props: {

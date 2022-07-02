@@ -1,9 +1,12 @@
-import type { InferGetServerSidePropsType, NextPage } from "next";
+import type {
+  GetServerSideProps,
+  GetStaticProps,
+  InferGetServerSidePropsType,
+  InferGetStaticPropsType,
+} from "next";
 import Link from "next/link";
 
-const Home = ({
-  users,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Home = ({ users }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <div>
       <h1>Users</h1>
@@ -34,7 +37,7 @@ interface IUser {
   email: string;
 }
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   const res = await fetch("https://jsonplaceholder.typicode.com/users");
   const users: IUser[] = await res.json();
 
@@ -44,4 +47,5 @@ export const getServerSideProps = async () => {
     },
   };
 };
+
 export default Home;
