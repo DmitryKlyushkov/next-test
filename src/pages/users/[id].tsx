@@ -31,10 +31,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   );
   const user: IUser = await resp.json();
 
-  context.res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
-  );
+  // context.res.setHeader(
+  //   "Cache-Control",
+  //   "public, s-maxage=10, stale-while-revalidate=59"
+  // );
 
   return {
     props: {
