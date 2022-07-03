@@ -1,9 +1,4 @@
-import type {
-  GetServerSideProps,
-  GetStaticProps,
-  InferGetServerSidePropsType,
-  InferGetStaticPropsType,
-} from "next";
+import type { InferGetStaticPropsType } from "next";
 import Link from "next/link";
 
 const Home = ({ users }: InferGetStaticPropsType<typeof getStaticProps>) => {

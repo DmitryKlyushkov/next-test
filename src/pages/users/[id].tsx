@@ -1,11 +1,5 @@
 import Link from "next/link";
-import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  GetStaticPropsContext,
-  InferGetServerSidePropsType,
-  InferGetStaticPropsType,
-} from "next/types";
+import { GetStaticPropsContext, InferGetStaticPropsType } from "next/types";
 
 export async function getStaticPaths() {
   const res = await fetch("https://jsonplaceholder.typicode.com/users");
@@ -29,7 +23,7 @@ const Details = ({ user }: InferGetStaticPropsType<typeof getStaticProps>) => {
       </Link>
       {user && (
         <div>
-          <h2>User ID: {user?.id}</h2>
+          <h2>User ID: {user?.id} is awesome</h2>
           <h3>user name: {user?.name}</h3>
           <h5>user email: {user?.email}</h5>
         </div>
