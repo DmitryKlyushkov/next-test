@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import styles from "./BackHomeButton.module.css";
+import styles from "./BackHomeButton.module.scss";
 
 const BackHomeButton = () => {
   return (
