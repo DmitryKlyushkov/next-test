@@ -1,27 +1,51 @@
 import type { InferGetStaticPropsType } from "next";
 import Link from "next/link";
+import Layout from "../components/Layout/Layout";
+import Image from "next/future/image";
 
 import styles from "../styles/Home.module.scss";
 
 const Home = ({ users }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
-    <div>
-      <h1>Users</h1>
-      <ul className={styles.ul}>
-        {users.map((user: IUser) => {
-          return (
-            <li key={user.id} className={styles.li}>
-              <Link href={`/users/${user.id}`}>
-                <a>
-                  <h3>{user.name}</h3>
-                  <h5>{user.email}</h5>
-                </a>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <Layout>
+      <div>
+        <div>
+          <Image
+            src="https://citilab.ru/upload/resize_cache/webp/upload/iblock/f85/f85863a65cd5448f5e3702e8dfdc4dde.webp"
+            alt="city lab"
+            priority
+          />
+        </div>
+
+        <h1>Users</h1>
+        <ul className={styles.ul}>
+          {users.map((user: IUser) => {
+            return (
+              <li key={user.id} className={styles.li}>
+                <Link href={`/users/${user.id}`}>
+                  <a>
+                    <Image
+                      src="https://simpl.info/webp/cherry.webp"
+                      alt="cherry"
+                      width={50}
+                      height={50}
+                    />
+                    <Image
+                      src="/user.jpg"
+                      alt="user image"
+                      width={50}
+                      height={50}
+                    />
+                    <h3>{user.name}</h3>
+                    <h5>{user.email}</h5>
+                  </a>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </Layout>
   );
 };
 
