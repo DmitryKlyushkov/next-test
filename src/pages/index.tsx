@@ -1,17 +1,16 @@
 import type { InferGetStaticPropsType } from "next";
 import Link from "next/link";
 
+import styles from "../styles/Home.module.css";
+
 const Home = ({ users }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <div>
       <h1>Users</h1>
-      <ul style={{ listStyle: "none" }}>
+      <ul className={styles.ul}>
         {users.map((user: IUser) => {
           return (
-            <li
-              key={user.id}
-              style={{ border: "1px solid black", padding: "10px" }}
-            >
+            <li key={user.id} className={styles.li}>
               <Link href={`/users/${user.id}`}>
                 <a>
                   <h3>{user.name}</h3>

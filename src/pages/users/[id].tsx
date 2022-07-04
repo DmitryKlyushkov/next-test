@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next/types";
 
+import BackHomeButton from "../../components/BackHomeButton/BackHomeButton";
+
 export async function getStaticPaths() {
   const res = await fetch("https://jsonplaceholder.typicode.com/users");
   const users: IUser[] = await res.json();
@@ -18,9 +20,7 @@ export async function getStaticPaths() {
 const Details = ({ user }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
-      <Link href="/">
-        <a>Home page</a>
-      </Link>
+      <BackHomeButton />
       {user && (
         <div>
           <h2>User ID: {user?.id} is awesome</h2>
