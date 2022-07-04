@@ -44,6 +44,12 @@ const Home = ({ users }: InferGetStaticPropsType<typeof getStaticProps>) => {
             );
           })}
         </ul>
+        <div>
+          <Image
+            src="https://thumb.tildacdn.com/tild3639-6666-4961-b063-623462616135/-/format/webp/kaboompics_A_woman_i.jpg"
+            alt="image"
+          />
+        </div>
       </div>
     </Layout>
   );
