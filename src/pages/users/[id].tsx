@@ -21,6 +21,9 @@ const Details = ({ user }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
       <BackHomeButton />
+      <Link href="/users" scroll={false}>
+        Users
+      </Link>
       {user && (
         <div>
           <h2>User ID: {user?.id} is awesome</h2>
